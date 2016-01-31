@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<style>
+    button {
+        width: 40px;
+        height: 40px;
+    }
+
+    input {
+        width: 170px;
+    }
+</style>
+
+<script>
+
+    var lastNum = "";
+    var lastOp = "";
+
+    function appendNum(num) {
+        textAreaRows();
+
+        var res = document.getElementById("result");
+
+        if (lastOp == "=") {
+            res.value = "";
+            lastNum = "";
+        }
+
+        lastOp = "";
+
+        if (res.value == "0" && num != ".") {
+            res.value = "";
+            lastNum = "";
+        }
+
+        if (lastNum != "" && lastNum.contains(".") && num == ".") {
+            return;
+        }
+
+        if (res.value == "" && num == ".") {
+            res.value = "0";
+            lastNum = "0";
+        }
+
+        lastNum += num;
+
+        res.value = res.value + num;
+    }
+
+    function appendOp(op) {
+        textAreaRows();
+
+        var res = document.getElementById("result");
+
+        if (lastOp == "" && lastNum == "") {
+            return;
+        }
+
+        if (lastOp == op) {
+            return;
+        }
+
+        if (lastOp != op && lastOp != "" && lastOp != "=") {
+            res.value = res.value.substr(0, res.value.length - 2) + op + " ";
+        }
+        else {
+            res.value = res.value + " " + op + " ";
+        }
+        lastNum = "";
+        lastOp = op;
+    }
+
+    function plusMinus() {
+        var res = document.getElementById("result");
+
+        if (lastNum[0] == "-") {
+            lastNum = lastNum.substr(1, lastNum.length - 1);
+            res.value = res.value.substr(0, res.value.length - lastNum.length - 1) + lastNum;
+        }
+        else {
+            lastNum = "-" + lastNum;
+            res.value = res.value.substr(0, res.value.length - lastNum.length + 1) + lastNum;
+        }
+    }
+
+    function backspace() {
+        var res = document.getElementById("result");
+
+        if (lastNum != "") {
+            res.value = res.value.substring(0, res.value.length - 1);
+            lastNum = lastNum.substr(0, lastNum.length - 1);
+        }
+    }
+
+    function textAreaRows() {
+        var res = document.getElementById("result");
+        if (res.value != "") {
+            var rows = Number(res.value.length / 20) + 1;
+            res.rows = rows;
+        }
+    }
+
+    function clearAll() {
+        var res = document.getElementById("result");
+
+        res.value = "";
+        lastNum = "";
+        lastOp = "";
+    }
+
+    function clearLast() {
+        var res = document.getElementById("result");
+
+        res.value = res.value.substr(0, res.value.length - lastNum.length);
+        lastNum = "";
+    }
+
+    function evaluateExpression() {
+        document.getElementById("result").rows = 1;
+
+        var res = document.getElementById("result");
+
+        try {
+            res.value = eval(res.value);
+            lastNum = res.value;
+        } catch (e) {
+            if (e instanceof SyntaxError) {
+                alert(e.message);
+                return;
+            }
+        }
+        lastOp = "=";
+    }
+</script>
+
+<textarea id="result" rows="0" cols="19" wrap="soft" autocomplete="off">
+</textarea>
+
+<table>
+    <tr>
+        <td>
+            <button id="percents">%</button>
+        </td>
+        <td>
+            <button id="sqrt">√</button>
+        </td>
+        <td>
+            <button id="sqr">X<sup>2</sup></button>
+        </td>
+        <td>
+            <button id="inversion">1/x</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button id="ce" onclick="clearLast()">CE</button>
+        </td>
+        <td>
+            <button id="c" onclick="clearAll()">C</button>
+        </td>
+        <td>
+            <button id="backspace" onclick="backspace()">⌫</button>
+        </td>
+        <td>
+            <button id="division" onclick="appendOp('/')">/</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button id="n7" onclick="appendNum('7')">7</button>
+        </td>
+        <td>
+            <button id="n8" onclick="appendNum('8')">8</button>
+        </td>
+        <td>
+            <button id="n9" onclick="appendNum('9')">9</button>
+        </td>
+        <td>
+            <button id="multiplication" onclick="appendOp('*')">*</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button id="n4" onclick="appendNum('4')">4</button>
+        </td>
+        <td>
+            <button id="n5" onclick="appendNum('5')">5</button>
+        </td>
+        <td>
+            <button id="n6" onclick="appendNum('6')">6</button>
+        </td>
+        <td>
+            <button id="subtraction" onclick="appendOp('-')">-</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button id="n1" onclick="appendNum('1')">1</button>
+        </td>
+        <td>
+            <button id="n2" onclick="appendNum('2')">2</button>
+        </td>
+        <td>
+            <button id="n3" onclick="appendNum('3')">3</button>
+        </td>
+        <td>
+            <button id="addition" onclick="appendOp('+')">+</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button id="plusMinus" onclick="plusMinus()">±</button>
+        </td>
+        <td>
+            <button id="n0" onclick="appendNum('0')">0</button>
+        </td>
+        <td>
+            <button id="dot" onclick="appendNum('.')">.</button>
+        </td>
+        <td>
+            <button id="compute" onclick="evaluateExpression()">=</button>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<style>
+    .content {
+        display: table-cell;
+        border-spacing: 10px;
+        border-collapse: separate;
+    }
+
+    .row {
+        display: table-row;
+    }
+</style>
+<script>
+    function checkNumber(arg) {
+        if (isNaN(arg)) {
+            alert("You must enter a number");
+            return false;
+        }
+        return true;
+    }
+
+    function isInt(n) {
+        return n % 1 === 0;
+    }
+
+    function getArgument1() {
+        var argument1 = prompt("Please enter argument1");
+        if (argument1 != null) {
+            if (checkNumber(argument1)) {
+                document.getElementById("argument1").innerHTML = argument1;
+            }
+        }
+    }
+
+    function getArgument2() {
+        var argument2 = document.getElementById("inputArgument2").value;
+        if (argument2 != null) {
+            if (checkNumber(argument2)) {
+                document.getElementById("argument2").innerHTML = argument2;
+            }
+        }
+    }
+
+    function getOperation() {
+        var operation = document.getElementById("getOperation");
+        var opt = operation.options[operation.selectedIndex].value;
+        if (opt != null) {
+            document.getElementById("operation").innerHTML = opt;
+        }
+    }
+
+    function compute() {
+        var arg1 = document.getElementById("argument1").innerHTML;
+        var arg2 = document.getElementById("argument2").innerHTML;
+        var op = document.getElementById("operation").innerHTML;
+        var res;
+        switch (op) {
+            case "+":
+                res = Number(arg1) + Number(arg2);
+                break;
+            case "-":
+                res = Number(arg1) - Number(arg2);
+                break;
+            case "*":
+                res = Number(arg1) * Number(arg2);
+                break;
+            case "/":
+                res = Number(arg1) / Number(arg2);
+                break;
+        }
+        if (!isInt(res)) {
+            res = res.toFixed(2);
+        }
+        document.getElementById("result").value = res;
+    }
+</script>
+
+<body>
+
+Input argument 1:
+<button id="inputArgument1" onclick="getArgument1()">Input</button>
+<br/>
+
+Input argument 2:
+<input id="inputArgument2" type="text" autocomplete="off">
+<button onclick="getArgument2()">Input</button>
+<br/>
+
+Choose operation:
+<select id="getOperation" onchange="getOperation()">
+    <option>+</option>
+    <option>-</option>
+    <option>*</option>
+    <option>/</option>
+</select>
+<br/>
+
+<button id="compute" onclick="compute()">Compute</button>
+
+<div class="content">
+    <div class="row">
+        <div id="argument1" style="display: table-cell"></div>
+        <div id="operation" style="display: table-cell"></div>
+        <div id="argument2" style="display: table-cell"></div>
+        <div style="display: table-cell">=</div>
+        <input id="result" autocomplete="off" style="display: table-cell">
+    </div>
+</div>
+
+</body>
+</html>
