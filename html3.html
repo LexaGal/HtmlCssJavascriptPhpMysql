@@ -123,10 +123,41 @@
     function toPower(power) {
         var res = document.getElementById("result");
 
+        try {
+            if (power == "x^y") {
+                power = Number(eval(document.getElementById("y").value));
+            }
+        }
+        catch (e) {
+            alert(e.message);
+        }
+
         res.value = res.value.substr(0, res.value.length - lastNum.length);
         var lastSqrt = Math.pow(Number(lastNum), power);
         res.value = res.value + lastSqrt;
         lastNum = lastSqrt.toString();
+    }
+
+    function getFactorial() {
+        var res = document.getElementById("result");
+
+        res.value = res.value.substr(0, res.value.length - lastNum.length);
+        var fact = factorial(Number(lastNum));
+        if(fact == "Infinity") {
+            alert("Factorial value is too big");
+            return;
+        }
+        res.value = res.value + fact;
+        lastNum = fact.toString();
+    }
+
+    function factorial(n) {
+        if (n == 0) {
+            return 1;
+        }
+        else {
+            return n * factorial(n - 1);
+        }
     }
 
     function evaluateExpression() {
@@ -147,8 +178,9 @@
     }
 </script>
 
-<textarea id="result" rows="0" cols="19" wrap="soft" autocomplete="off">
-</textarea>
+<textarea id="result" rows="0" cols="19" wrap="soft" autocomplete="off"></textarea>
+<br/>
+<input id="y" autocomplete="off" type="text" placeholder="The value of y">
 
 <table>
     <tr>
@@ -159,10 +191,10 @@
             <button id="ln" onclick="toPower(0.5)">Ln</button>
         </td>
         <td>
-            <button id="yRoot" onclick="toPower(2)">X<sup>y</sup></button>
+            <button id="xPowY" onclick="toPower('x^y')">X<sup>y</sup></button>
         </td>
         <td>
-            <button id="ySup" onclick="toPower(-1)">1/X<sup>y</sup></button>
+            <button id="fact" onclick="getFactorial()">n!</button>
         </td>
     </tr>
     <tr>
