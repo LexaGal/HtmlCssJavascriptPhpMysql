@@ -160,6 +160,20 @@
         }
     }
 
+    function log(base) {
+        var res = document.getElementById("result");
+        res.value = res.value.substr(0, res.value.length - lastNum.length);
+        var logrm;
+        if (base == "10") {
+                logrm = Math.log10(Number(lastNum));
+        }
+        else {
+            logrm = Math.log(Number(lastNum));
+        }
+        res.value = res.value + logrm;
+        lastNum = logrm.toString();
+    }
+
     function evaluateExpression() {
         document.getElementById("result").rows = 1;
 
@@ -185,10 +199,10 @@
 <table>
     <tr>
         <td>
-            <button id="log" onclick="appendOp('%')">Log</button>
+            <button id="log" onclick="log('10')">Log</button>
         </td>
         <td>
-            <button id="ln" onclick="toPower(0.5)">Ln</button>
+            <button id="ln" onclick="log()">Ln</button>
         </td>
         <td>
             <button id="xPowY" onclick="toPower('x^y')">X<sup>y</sup></button>
