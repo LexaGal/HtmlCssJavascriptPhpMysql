@@ -120,6 +120,15 @@
         lastNum = "";
     }
 
+    function toPower(power) {
+        var res = document.getElementById("result");
+
+        res.value = res.value.substr(0, res.value.length - lastNum.length);
+        var lastSqrt = Math.pow(Number(lastNum), power);
+        res.value = res.value + lastSqrt;
+        lastNum = lastSqrt.toString();
+    }
+
     function evaluateExpression() {
         document.getElementById("result").rows = 1;
 
@@ -144,16 +153,30 @@
 <table>
     <tr>
         <td>
-            <button id="percents">%</button>
+            <button id="log" onclick="appendOp('%')">Log</button>
         </td>
         <td>
-            <button id="sqrt">√</button>
+            <button id="ln" onclick="toPower(0.5)">Ln</button>
         </td>
         <td>
-            <button id="sqr">X<sup>2</sup></button>
+            <button id="yRoot" onclick="toPower(2)">X<sup>y</sup></button>
         </td>
         <td>
-            <button id="inversion">1/x</button>
+            <button id="ySup" onclick="toPower(-1)">1/X<sup>y</sup></button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button id="mod" onclick="appendOp('%')">mod</button>
+        </td>
+        <td>
+            <button id="sqrt" onclick="toPower(0.5)">√</button>
+        </td>
+        <td>
+            <button id="sup" onclick="toPower(2)">X<sup>2</sup></button>
+        </td>
+        <td>
+            <button id="inversion" onclick="toPower(-1)">1/X</button>
         </td>
     </tr>
     <tr>
